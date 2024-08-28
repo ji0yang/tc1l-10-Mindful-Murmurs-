@@ -1,0 +1,52 @@
+body {
+    background: linear-gradient(to bottom, peru, rosybrown);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: left;
+    font-family: 'Dancing Script', cursive;
+    font-size: 65px;
+    color: rgb(78, 78, 1); 
+}
+
+h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: peru;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: rosybrown;
+}
+
+a {
+    color: black;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}
