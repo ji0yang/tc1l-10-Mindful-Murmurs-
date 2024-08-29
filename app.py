@@ -44,7 +44,7 @@ class CommentForm(FlaskForm):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-FORBIDDEN_WORDS = ['bullshit', 'shit', 'dumb', 'retard', 'cunt', 'idiot']
+FORBIDDEN_WORDS = ['bullshit', 'shit', 'dumb', 'damn', 'stupid', 'idiot']
 comments = []
 
 def filter_text(text):
@@ -92,7 +92,7 @@ def comment():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
         if any(word in comment.lower() for word in FORBIDDEN_WORDS):
-            flash('Your comment contains forbidden words.', 'danger')
+            flash('Your comment contains forbidden words. Please avoid posting fault  language.')
         else:
             comments.append({'username': current_user.username, 'comment': filtered_comment})
             flash('Comment added successfully!', 'success')
