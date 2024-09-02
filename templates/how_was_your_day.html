@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Was Your Day?</title>
+</head>
+<body>
+    <h1>How Was Your Day?</h1>
+    <form method="POST">
+        <!-- Buttons to submit the form for each question -->
+        <button type="submit" name="question" value="q1">Positive</button><br><br>
+        <button type="submit" name="question" value="q2">Neutral</button><br><br>
+        <button type="submit" name="question" value="q3">Negative</button>
+    </form>
+
+    <!-- Display the response if there's any -->
+    {% if response %}
+        <h2>{{ response }}</h2>
+    {% endif %}
+</body>
+</html>

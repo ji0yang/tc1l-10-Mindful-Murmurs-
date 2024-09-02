@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 db = SQLAlchemy(app)
@@ -16,10 +18,15 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+# User model definition
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+
+# Creating all tables based on the defined models
+with app.app_context():
+    db.create_all()  # This will create the 'user' table in your database if it doesn't exist
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
@@ -92,11 +99,11 @@ def comment():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
         if any(word in comment.lower() for word in FORBIDDEN_WORDS):
-            flash('Your comment contains forbidden words. Please avoid posting fault  language.')
+            flash('Your comment contains forbidden words. Please avoid posting foul language.')
         else:
             comments.append({'username': current_user.username, 'comment': filtered_comment})
             flash('Comment added successfully!', 'success')
-        return redirect(url_for('comment'))
+        return redirect(url_for('how_was_your_day'))  # Redirect to "How Was Your Day?" page after posting
     return render_template('comment.html', form=form, comments=comments)
 
 @app.route('/delete/<int:comment_id>')
@@ -110,11 +117,54 @@ def delete(comment_id):
         flash('You do not have permission to delete this comment.', 'danger')
     return redirect(url_for('comment'))
 
+answers = {
+    'q1': [
+        "That's wonderful! It's the little moments of joy that make life beautiful.",
+        "Great to hear! Keep enjoying those good vibes!",
+        "Awesome! Sounds like you had a fantastic time!"
+    ],
+    'q2': [
+        "An okay day is still a step forward. Keep looking for those little good moments.",
+        "Sometimes neutral is just what we need. Keep going!",
+        "Not every day can be exciting, but that's okay!"
+    ],
+    'q3': [
+        "I'm sorry to hear that. Remember, tough times don't last forever.",
+        "Bad days happen, but better days are ahead.",
+        "Hang in there, tomorrow is a new start!"
+    ]
+}
+
+index_tracker = {'q1': 0, 'q2': 0, 'q3': 0}
+
+@app.route('/how_was_your_day', methods=['GET', 'POST'])
+@login_required
+def how_was_your_day():
+    response = ""
+    if request.method == 'POST':
+        question = request.form.get('question')
+        if question in answers:
+            if not request.cookies.get(question):
+                index = index_tracker[question]
+                response = answers[question][index]
+                index_tracker[question] = (index + 1) % len(answers[question])
+
+                resp = make_response(render_template('how_was_your_day.html', response=response))
+                expire_date = datetime.datetime.now() + datetime.timedelta(days=1)
+                resp.set_cookie(question, 'done', expires=expire_date)
+                return resp
+            else:
+                response = "You have already answered this question today."
+    return render_template('how_was_your_day.html', response=response)
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash('Log out is successful. Hope to see you see soon')
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
