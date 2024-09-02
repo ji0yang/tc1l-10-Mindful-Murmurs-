@@ -55,10 +55,12 @@ def filter_text(text):
     return text_lower
 
 @app.route('/')
+@login_required
 def index():
     return redirect(url_for('login'))
 
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html')
 
