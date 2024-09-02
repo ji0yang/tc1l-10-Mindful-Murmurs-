@@ -177,5 +177,6 @@ def logout():
     flash('Log out is successful. Hope to see you soon')
     return redirect(url_for('login'))
 
+
 if __name__ == '__main__':
     app.run(debug=True)
