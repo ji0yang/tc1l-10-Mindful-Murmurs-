@@ -1,5 +1,3 @@
-/* style.css */
-
 body {
     background: linear-gradient(to bottom, peru, rosybrown);
     display: flex;
@@ -22,11 +20,13 @@ body {
 }
 
 h1 {
-    font-family: 'Dancing Script', cursive;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 65px;
     margin-bottom: 20px;
     position: absolute; 
-    top: 100px; 
+    top: 75px;
+   
+    
 }
 
 form {
@@ -70,7 +70,7 @@ a {
     text-decoration: none;
     font-size: 18px;
     position: absolute;
-    bottom: 200px;
+    bottom: 180px;
 }
 
 a:hover {
