@@ -1,0 +1,67 @@
+body {
+    background-color: #f0f0f5; /* Light grey background for the body */
+    font-family: Arial, sans-serif;
+    color: #333; /* Dark grey color for text */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #4A4A4A; /* Darker grey color for the heading */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="submit"] {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50; /* Green background for the submit button */
+    color: white;
+    cursor: pointer;
+    width: 100px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+li {
+    background-color: #fff; /* White background for list items */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #0066cc; /* Blue color for links */
+    font-weight: bold;
+}
+
+a:hover {
+    color: #004080; /* Darker blue on hover */
+}
+
+p {
+    text-align: center;
+}
