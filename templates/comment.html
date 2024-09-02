@@ -13,4 +13,11 @@
       <li>{{ comment.username }}: {{ comment.comment }}</li>
     {% endfor %}
   </ul>
+  <p>Select your mood:</p>
+  <a href="{{ url_for('comment', mood='q1') }}">Good</a>
+  <a href="{{ url_for('comment', mood='q2') }}">Okay</a>
+  <a href="{{ url_for('comment', mood='q3') }}">Bad</a>
+  {% if response %}
+    <p>Response: {{ response }}</p>
+  {% endif %}
 {% endblock %}

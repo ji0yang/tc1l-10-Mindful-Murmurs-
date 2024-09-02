@@ -9,7 +9,6 @@ import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 db = SQLAlchemy(app)
@@ -18,15 +17,10 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-# User model definition
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
-
-# Creating all tables based on the defined models
-with app.app_context():
-    db.create_all()  # This will create the 'user' table in your database if it doesn't exist
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
@@ -95,6 +89,9 @@ def register():
 @login_required
 def comment():
     form = CommentForm()
+    response = ""
+    
+    # Handle comment submission
     if form.validate_on_submit():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
@@ -103,8 +100,22 @@ def comment():
         else:
             comments.append({'username': current_user.username, 'comment': filtered_comment})
             flash('Comment added successfully!', 'success')
-        return redirect(url_for('how_was_your_day'))  # Redirect to "How Was Your Day?" page after posting
-    return render_template('comment.html', form=form, comments=comments)
+    
+    # Handle mood selection
+    mood = request.args.get('mood')
+    if mood in answers:
+        if not request.cookies.get(mood):
+            index = index_tracker[mood]
+            response = answers[mood][index]
+            index_tracker[mood] = (index + 1) % len(answers[mood])
+            expire_date = datetime.datetime.now() + datetime.timedelta(days=1)
+            resp = make_response(render_template('comment.html', form=form, comments=comments, response=response))
+            resp.set_cookie(mood, 'done', expires=expire_date)
+            return resp
+        else:
+            response = "You have already answered this question today."
+    
+    return render_template('comment.html', form=form, comments=comments, response=response)
 
 @app.route('/delete/<int:comment_id>')
 @login_required
@@ -149,22 +160,20 @@ def how_was_your_day():
                 response = answers[question][index]
                 index_tracker[question] = (index + 1) % len(answers[question])
 
-                resp = make_response(render_template('how_was_your_day.html', response=response))
+                resp = make_response(render_template('comment.html', response=response))
                 expire_date = datetime.datetime.now() + datetime.timedelta(days=1)
                 resp.set_cookie(question, 'done', expires=expire_date)
                 return resp
             else:
                 response = "You have already answered this question today."
-    return render_template('how_was_your_day.html', response=response)
+    return render_template('comment.html', response=response)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('Log out is successful. Hope to see you see soon')
+    flash('Log out is successful. Hope to see you soon')
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
