@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Login Page</h2>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
     <form method='POST' action="{{ url_for('login') }}">
         {{ form.hidden_tag() }}
         <div>
