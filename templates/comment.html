@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>Comments</h1>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='comment_style.css') }}">
   <form action="" method="post">
     {{ form.hidden_tag() }}
     {{ form.comment(size=40) }}
