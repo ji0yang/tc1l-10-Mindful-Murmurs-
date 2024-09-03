@@ -57,6 +57,9 @@ def filter_text(text):
 @app.route('/')
 @login_required
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
     return redirect(url_for('login'))
 
 @app.route('/home')
@@ -71,7 +74,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('comment'))
+            return redirect(url_for('home'))
         flash('Login failed. Check your username and/or password.')
     return render_template('login.html', form=form)
 
