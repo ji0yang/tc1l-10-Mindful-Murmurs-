@@ -10,12 +10,32 @@ body {
     padding: 20px;
 }
 
+.navbar {
+    width: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000;
+    background: linear-gradient(to right, #8b4513, #a0522d); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
+}
 
+.navbar-brand,
+.nav-link {
+    color: white !important;
+}
 
 h1 {
     color: #4A4A4A; 
     text-align: center;
+    margin-top: 70px;
     margin-bottom: 20px;
+}
+
+.container {
+    margin-top: 60px; 
+    padding: 20px;
+    width: 100%; 
 }
 
 form {

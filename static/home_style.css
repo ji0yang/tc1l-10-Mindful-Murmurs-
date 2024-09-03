@@ -16,7 +16,9 @@
     animation: gradientWave 5s ease infinite; 
     height: 100vh;
     margin: 0;
+    padding-top: 50px;
     color: black;
+    position: relative; 
   }
   
   .container {
@@ -32,6 +34,7 @@
     font-family: 'Dancing Script', cursive;
     font-size: 65px;
     color: rgb(78, 78, 1);
+    margin-top: 90px;
   }
   
   h2 {
@@ -91,4 +94,20 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 20px;
   }
+
+  .logout-button {
+    position: absolute; 
+    top: 10px; 
+    right: 20px; 
+    background-color: peru; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px ;
+    transition: background-color 0.3s ease; 
+}
+
+.logout-button:hover {
+    background-color: rosybrown; 
+}
   

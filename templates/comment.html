@@ -3,21 +3,44 @@
 {% block content %}
   <h1>Comments</h1>
   <link rel="stylesheet" href="{{ url_for('static', filename='comment_style.css') }}">
-  <form action="" method="post">
+  
+  <!-- Comment Form -->
+  <form action="" method="post" class="comment-form">
     {{ form.hidden_tag() }}
-    {{ form.comment(size=40) }}
-    {{ form.submit() }}
+    <div>
+      {{ form.comment.label }}<br>
+      {{ form.comment(size=40) }}<br>
+      {% for error in form.comment.errors %}
+        <span class="error">{{ error }}</span><br>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.submit() }}
+    </div>
   </form>
-  <ul>
+  
+  <!-- Comments List -->
+  <ul class="comments-list">
     {% for comment in comments %}
-      <li>{{ comment.username }}: {{ comment.comment }}</li>
+      <li class="comment-item">
+        <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+        {% if comment.username == current_user.username %}
+          <a href="{{ url_for('delete', comment_id=comment.id) }}" class="delete-button">Delete</a>
+        {% endif %}
+      </li>
     {% endfor %}
   </ul>
+  
+  <!-- Mood Selection -->
   <p>Select your mood:</p>
-  <a href="{{ url_for('comment', mood='q1') }}">Good</a>
-  <a href="{{ url_for('comment', mood='q2') }}">Okay</a>
-  <a href="{{ url_for('comment', mood='q3') }}">Bad</a>
+  <div class="mood-links">
+    <a href="{{ url_for('comment', mood='q1') }}" class="mood-link">Good</a>
+    <a href="{{ url_for('comment', mood='q2') }}" class="mood-link">Okay</a>
+    <a href="{{ url_for('comment', mood='q3') }}" class="mood-link">Bad</a>
+  </div>
+  
+  <!-- Response -->
   {% if response %}
-    <p>Response: {{ response }}</p>
+    <p class="response">Response: {{ response }}</p>
   {% endif %}
-{% endblock %}
+{% endblock %}
