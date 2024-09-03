@@ -110,7 +110,7 @@ def comment():
         if any(word in comment.lower() for word in FORBIDDEN_WORDS):
             flash('Your comment contains forbidden words. Please avoid posting foul language.')
         else:
-            comments.append({'username': current_user.username, 'comment': filtered_comment})
+            comments.append({'id': len(comments), 'username': current_user.username, 'comment': filtered_comment})
             flash('Comment added successfully!', 'success')
     
     # Handle mood selection
@@ -129,12 +129,16 @@ def comment():
     
     return render_template('comment.html', form=form, comments=comments, response=response)
 
+# delete comment
 @app.route('/delete/<int:comment_id>')
 @login_required
 def delete(comment_id):
-    comment = next((comment for comment in comments if comment['username'] == current_user.username and comments.index(comment) == comment_id), None)
-    if comment:
-        comments.remove(comment)
+    global comments
+    # check user before deleting its comment
+    comment_to_delete = next((c for c in comments if c['id'] == comment_id and c['username'] == current_user.username), None)
+    if comment_to_delete:
+      
+        comments = [c for c in comments if not (c['id'] == comment_id and c['username'] == current_user.username)]
         flash('Comment deleted successfully!', 'success')
     else:
         flash('You do not have permission to delete this comment.', 'danger')
