@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, make_response
+# database
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -45,6 +46,7 @@ class CommentForm(FlaskForm):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# not allow user to comment these word
 FORBIDDEN_WORDS = ['bullshit', 'shit', 'dumb', 'damn', 'stupid', 'idiot']
 comments = []
 
@@ -54,6 +56,7 @@ def filter_text(text):
         text_lower = text_lower.replace(word, '*' * len(word))
     return text_lower
 
+# make user log in then direct it to home page
 @app.route('/')
 @login_required
 def index():
@@ -67,6 +70,7 @@ def index():
 def home():
     return render_template('home.html')
 
+# log in details
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -74,10 +78,12 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
+            # after log in direct user to home page
             return redirect(url_for('home'))
         flash('Login failed. Check your username and/or password.')
     return render_template('login.html', form=form)
 
+# register details
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -86,17 +92,18 @@ def register():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        # direct user to log in page after register
         flash('Account created! You can now log in.')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
+# user commeting
 @app.route('/comment', methods=['GET', 'POST'])
 @login_required
 def comment():
     form = CommentForm()
     response = ""
     
-    # Handle comment submission
     if form.validate_on_submit():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
@@ -153,6 +160,8 @@ answers = {
 
 index_tracker = {'q1': 0, 'q2': 0, 'q3': 0}
 
+# let user to choose their mood after commeting 
+# only allow user to choose once per day
 @app.route('/how_was_your_day', methods=['GET', 'POST'])
 @login_required
 def how_was_your_day():
@@ -173,6 +182,7 @@ def how_was_your_day():
                 response = "You have already answered this question today."
     return render_template('comment.html', response=response)
 
+# log out
 @app.route('/logout')
 @login_required
 def logout():
