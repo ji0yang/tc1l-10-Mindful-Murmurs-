@@ -1,13 +1,19 @@
 body {
-    background-color: #f0f0f5; /* Light grey background for the body */
+    background: linear-gradient(to bottom, peru, rosybrown);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     font-family: Arial, sans-serif;
-    color: #333; /* Dark grey color for text */
+    color: #333; 
     margin: 0;
     padding: 20px;
 }
 
+
+
 h1 {
-    color: #4A4A4A; /* Darker grey color for the heading */
+    color: #4A4A4A; 
     text-align: center;
     margin-bottom: 20px;
 }
@@ -27,7 +33,7 @@ input[type="text"], input[type="submit"] {
 }
 
 input[type="submit"] {
-    background-color: #4CAF50; /* Green background for the submit button */
+    background-color: #4CAF50; 
     color: white;
     cursor: pointer;
     width: 100px;
@@ -35,16 +41,16 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049; 
 }
 
 ul {
-    list-style-type: none; /* Remove bullet points */
+    list-style-type: none; 
     padding: 0;
 }
 
 li {
-    background-color: #fff; /* White background for list items */
+    background-color: #fff; 
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 4px;
@@ -54,14 +60,15 @@ li {
 a {
     margin-right: 10px;
     text-decoration: none;
-    color: #0066cc; /* Blue color for links */
+    color: #0066cc; 
     font-weight: bold;
 }
 
 a:hover {
-    color: #004080; /* Darker blue on hover */
+    color: #004080; 
 }
 
 p {
     text-align: center;
 }
+
