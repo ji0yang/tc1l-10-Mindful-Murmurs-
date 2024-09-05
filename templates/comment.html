@@ -5,12 +5,19 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='comment_style.css') }}">
   
   <!-- Comment Form -->
-  <form action="" method="post" class="comment-form">
+  <form action="" method="post" class="comment-form" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div>
       {{ form.comment.label }}<br>
       {{ form.comment(size=40) }}<br>
       {% for error in form.comment.errors %}
+        <span class="error">{{ error }}</span><br>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.image.label }}<br>
+      {{ form.image() }}<br>
+      {% for error in form.image.errors %}
         <span class="error">{{ error }}</span><br>
       {% endfor %}
     </div>
@@ -24,6 +31,11 @@
     {% for comment in comments %}
       <li class="comment-item">
         <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+        {% if comment.image %}
+          <div>
+            <img src="{{ url_for('static', filename='uploads/' + comment.image) }}" alt="Image" style="max-width: 200px; max-height: 200px;">
+          </div>
+        {% endif %}
         {% if comment.username == current_user.username %}
           <a href="{{ url_for('delete', comment_id=comment.id) }}" class="delete-button">Delete</a>
         {% endif %}
@@ -43,4 +55,4 @@
   {% if response %}
     <p class="response">Response: {{ response }}</p>
   {% endif %}
-{% endblock %}
+{% endblock %}

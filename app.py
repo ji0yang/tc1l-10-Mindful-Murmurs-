@@ -6,11 +6,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from flask_wtf.file import FileField, FileAllowed
+import os
 import datetime
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -40,6 +44,8 @@ class LoginForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     comment = StringField('Comment', validators=[InputRequired()])
+    # allow user to post picture but only in jpg,jpeg and png
+    image = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     submit = SubmitField("Comment")
 
 @login_manager.user_loader
@@ -97,21 +103,35 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-# user commeting
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png'}
+
 @app.route('/comment', methods=['GET', 'POST'])
 @login_required
 def comment():
     form = CommentForm()
     response = ""
-    
+
     if form.validate_on_submit():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
         if any(word in comment.lower() for word in FORBIDDEN_WORDS):
-            flash('Your comment contains forbidden words. Please avoid posting foul language.')
+            flash('Your comment contains foul language. Please try again')
         else:
-            comments.append({'id': len(comments), 'username': current_user.username, 'comment': filtered_comment})
-            flash('Comment added successfully!', 'success')
+            filename = None
+            if 'image' in request.files:
+                file = request.files['image']
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            comments.append({
+                'id': len(comments), 
+                'username': current_user.username, 
+                'comment': filtered_comment,
+                'image': filename
+            })
+            flash('Comment added!')
     
     # Handle mood selection
     mood = request.args.get('mood')
@@ -148,7 +168,8 @@ answers = {
     'q1': [
         "That's wonderful! It's the little moments of joy that make life beautiful.",
         "Great to hear! Keep enjoying those good vibes!",
-        "Awesome! Sounds like you had a fantastic time!"
+        "Awesome! Sounds like you had a fantastic time!",
+        "I love looking in the mirror and feeling good about what I see!"
     ],
     'q2': [
         "An okay day is still a step forward. Keep looking for those little good moments.",
@@ -186,7 +207,12 @@ def how_was_your_day():
                 response = "You have already answered this question today."
     return render_template('comment.html', response=response)
 
-# log out
+@app.route('/calendar')
+@login_required
+def calendar():
+    return render_template('calendar.html')
+
+# Log out
 @app.route('/logout')
 @login_required
 def logout():
@@ -194,6 +220,8 @@ def logout():
     flash('Log out is successful. Hope to see you soon')
     return redirect(url_for('login'))
 
-
 if __name__ == '__main__':
+# create a folder call uploads automatically if it wasnt created manually
+    if not os.path.exists('static/uploads'):
+        os.makedirs('static/uploads')
     app.run(debug=True)
