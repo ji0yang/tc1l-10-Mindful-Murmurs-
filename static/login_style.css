@@ -58,7 +58,7 @@ a {
 }
 
 .navbar {
-    background-color: peru !important;
+    background: linear-gradient(to right, #8b4513, #a0522d); 
 }
 
 .navbar-brand, .nav-link {
