@@ -8,7 +8,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from flask_wtf.file import FileField, FileAllowed
 import os
-import datetime
+from datetime import datetime
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -129,7 +129,8 @@ def comment():
                 'id': len(comments), 
                 'username': current_user.username, 
                 'comment': filtered_comment,
-                'image': filename
+                'image': filename,
+                'timestamp': datetime.now().strftime('%y-%m_%d %H:%M:%S')
             })
             flash('Comment added!')
     

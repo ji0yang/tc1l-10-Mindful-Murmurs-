@@ -31,6 +31,9 @@
     {% for comment in comments %}
       <li class="comment-item">
         <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+        {% if comment.timestamp %}
+          <span class="timestamp" style="color: #888; font-size: 12px;">on {{ comment.timestamp }}</span>
+        {% endif %}
         {% if comment.image %}
           <div>
             <img src="{{ url_for('static', filename='uploads/' + comment.image) }}" alt="Image" style="max-width: 200px; max-height: 200px;">
