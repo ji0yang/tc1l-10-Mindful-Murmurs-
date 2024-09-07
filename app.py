@@ -169,17 +169,38 @@ answers = {
         "That's wonderful! It's the little moments of joy that make life beautiful.",
         "Great to hear! Keep enjoying those good vibes!",
         "Awesome! Sounds like you had a fantastic time!",
-        "I love looking in the mirror and feeling good about what I see!"
+        "I love looking in the mirror and feeling good about what I see!",
+        "It sounds like you had an absolutely amazing day, and I'm so glad to hear that!",
+        "I'm really happy to hear that your day went so well. It must have been quite enjoyable!",
+        "It's fantastic to know that your day turned out so great. You deserve it!",
+        "It's so heartwarming to hear that your day was so enjoyable. I hope it was filled with great moments!",
+        "It's great to hear that today was such a good day for you. I hope the positive energy carries through to tomorrow!",
+        "Your day sounds wonderful, and I'm thrilled that you had such a good experience today."
+
     ],
     'q2': [
         "An okay day is still a step forward. Keep looking for those little good moments.",
         "Sometimes neutral is just what we need. Keep going!",
-        "Not every day can be exciting, but that's okay!"
+        "Not every day can be exciting, but that's okay!",
+        "Glad to hear your day was okay. Sometimes a day that's just average can be surprisingly pleasant.",
+        "Sometimes an okay day is just what we need to reset and prepare for better things ahead. Glad it was decent!",
+        "An okay day is better than a bad one. I'm happy to hear you had a relatively uneventful but decent day.",
+        "Sounds like it was a pretty average day for you. Sometimes those days are just what we need for a bit of normalcy.",
+        "I'm glad it was an okay day. Sometimes those days are necessary to keep things balanced and steady.",
+        "Even though it was just an okay day, it's good to hear it wasn't too stressful. Here's to hoping for something better soon!",
+        "It sounds like today was a normal day. Even those can be important and have their own little moments of satisfaction."
     ],
     'q3': [
         "I'm sorry to hear that. Remember, tough times don't last forever.",
         "Bad days happen, but better days are ahead.",
-        "Hang in there, tomorrow is a new start!"
+        "Hang in there, tomorrow is a new start!",
+        "Bad days are tough, and I'm sorry you had to experience one today. I hope things get better soon.",
+        "I'm sorry your day was rough. Everyone has those kinds of days, and I hope tomorrow is much better for you.",
+        "It's unfortunate that you had a rough day. I'm here if you need support or just someone to listen.",
+        "I'm sorry you had a hard day. Remember that every difficult day is followed by new opportunities for better moments.",
+        "Bad days can be really tough to get through, and I'm sorry you had to experience one today. I hope tomorrow is kinder.",
+        "I'm sorry today didn't go well for you. It's important to remember that tough days are just part of life's ups and downs.",
+        "I'm really sorry to hear that you had a hard day. Hang in there; sometimes it's the difficult days that make us stronger."
     ]
 }
 
