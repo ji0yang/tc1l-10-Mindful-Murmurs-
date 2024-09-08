@@ -8,7 +8,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from flask_wtf.file import FileField, FileAllowed
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -130,7 +130,8 @@ def comment():
                 'username': current_user.username, 
                 'comment': filtered_comment,
                 'image': filename,
-                'timestamp': datetime.now().strftime('%y-%m_%d %H:%M:%S')
+                'timestamp': datetime.now().strftime('%y-%m_%d %H:%M:%S'),
+                'likes': 0
             })
             flash('Comment added!')
     
@@ -149,6 +150,21 @@ def comment():
             response = "You have already answered this question today."
     
     return render_template('comment.html', form=form, comments=comments, response=response)
+
+@app.route('/like/<int:comment_id>')
+@login_required
+def like_comment(comment_id):
+    comment_to_like = next((c for c in comments if c['id'] == comment_id), None)
+    if comment_to_like:
+        if current_user.username not in comment_to_like.get('liked_by', []):
+            comment_to_like['likes'] += 1
+            comment_to_like.setdefault('liked_by', []).append(current_user.username)
+            flash('You liked the comment!', 'success')
+        else:
+            flash('You have already liked this comment.', 'info')
+    else:
+        flash('Comment not found.', 'danger')
+    return redirect(url_for('comment'))
 
 # delete comment
 @app.route('/delete/<int:comment_id>')
@@ -246,4 +262,8 @@ if __name__ == '__main__':
 # create a folder call uploads automatically if it wasnt created manually
     if not os.path.exists('static/uploads'):
         os.makedirs('static/uploads')
+#make the new tables run correctly 
+    with app.app_context():
+        db.create_all()
+
     app.run(debug=True)
