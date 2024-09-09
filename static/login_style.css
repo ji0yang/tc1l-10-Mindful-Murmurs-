@@ -1,4 +1,9 @@
 body {
+    /* 
+    Sets a gradient background from peru to rosybrown.
+    The height of the body is set to 100vh, with no margins. 
+    The text color for the body is set to black.
+    */
     background: linear-gradient(to bottom, peru, rosybrown);
     height: 100vh;
     margin: 0;
@@ -6,6 +11,10 @@ body {
 }
 
 .container {
+    /* 
+    Uses Flexbox to center content horizontally and vertically within the container. 
+    The container takes up the remaining height of the viewport with minus 56px, and the layout is in a column direction.
+    */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +23,11 @@ body {
 }
 
 h1 {
+    /* 
+    Styles the main heading on the center. 
+    The font is set to Dancing Script for a cursive effect, with a large font size of 65px.
+    The text color is (rgb(78, 78, 1)).
+    */
     text-align: center;
     font-family: 'Dancing Script', cursive;
     font-size: 65px;
@@ -21,10 +35,18 @@ h1 {
 }
 
 h2 {
+    /* 
+    Sets the font family for h2 to a serif style for a better look.
+    */
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 input[type="text"], input[type="password"] {
+     /* 
+    These styles apply to text and password input fields. 
+    They are 100% width, have padding inside for spacing, and a small margin outside.
+    The border is (#ccc), and the background color is (#f8f9fa).
+    */
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -36,6 +58,11 @@ input[type="text"], input[type="password"] {
 }
 
 input[type="submit"] {
+    /* 
+    Styles the submit button with peru background color and white text.
+    It has padding for spacing and rounded corners. 
+    The button takes up the full width of the container, and changes cursor to pointer on hover.
+    */
     background-color: peru;
     color: white;
     padding: 10px 20px;
@@ -47,10 +74,17 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
+    /* 
+    Changes the background color of the submit button to rosybrown when hovered on.
+    */
     background-color: rosybrown;
 }
 
 a {
+    /* 
+    Styles the anchor links with black text and centers them.
+    The link appears as a block element with a small margin on the top.
+    */
     color: black;
     text-align: center;
     display: block;
@@ -58,14 +92,25 @@ a {
 }
 
 .navbar {
+    /* 
+    The navigation bar has a gradient background transitioning from (#8b4513) to (#a0522d).
+    */
     background: linear-gradient(to right, #8b4513, #a0522d); 
 }
 
 .navbar-brand, .nav-link {
+     /* 
+    Ensures that the text color for the navigation bar brand and links is white, 
+    using `!important` to override any other conflicting styles.
+    */
     color: white !important;
 }
 
 h3 {
+      /* 
+    Styles h3 with center alignment, using serif font .
+    It also has a top margin of 20px for spacing.
+    */
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 20px;
