@@ -1,4 +1,9 @@
 @keyframes gradientWave {
+  /* 
+    Defines a keyframe animation for the background gradient to move horizontally.
+    The background shifts from its starting position (0% 50%) to the right (100% 50%) 
+    and back to the starting position (0% 50%) in a continuous loop.
+    */
     0% {
       background-position: 0% 50%;
     }
@@ -11,6 +16,12 @@
   }
   
   body {
+    /* 
+    The body has a gradient background that animates horizontally using the `gradientWave` keyframes.
+    The background covers a larger area of 200% size to allow for the animated effect. 
+    The animation duration is 5 seconds and loops infinitely with ease-in-out timing.
+    The body takes up the entire viewport height with no margins and includes some padding on the top.
+    */
     background: linear-gradient(90deg, peru, rosybrown);
     background-size: 200% 200%; 
     animation: gradientWave 5s ease infinite; 
@@ -22,6 +33,10 @@
   }
   
   .container {
+     /* 
+    Uses Flexbox to center the content within the container both horizontally and vertically.
+    The container takes up the remaining viewport height (minus 56px), and items are arranged in a column.
+    */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,6 +45,11 @@
   }
   
   h1 {
+    /* 
+    h1 is centered with the 'Dancing Script' cursive font, 
+    a large font size 65px, with (rgb(78, 78, 1)) color.
+    Additional margin at the top separates it from other elements.
+    */
     text-align: center;
     font-family: 'Dancing Script', cursive;
     font-size: 65px;
@@ -38,11 +58,18 @@
   }
   
   h2 {
+    /* 
+    h2 uses a serif font family , giving a better look.
+    */
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
   
   input[type="text"],
   input[type="password"] {
+    /* 
+    Text and password input fields are full-width, have padding for spacing, and a (#ccc) border.
+    Rounded corners and (#f8f9fa) color enhance the visual appearance.
+    */
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -54,6 +81,11 @@
   }
   
   input[type="submit"] {
+     /* 
+    The submit button has a peru background color and white text.
+    It has padding for better clicking, and the button spans the full width of its container.
+    On hover, the background color changes smoothly due to the transition effect.
+    */
     background-color: peru;
     color: white;
     padding: 10px 20px;
@@ -66,10 +98,17 @@
   }
   
   input[type="submit"]:hover {
+    /* 
+    Changes the background color of the submit button to rosybrown when hovered over.
+    */
     background-color: rosybrown;
   }
   
   a {
+    /* 
+    Anchor links are styled with black text and placed on the center.
+    They are displayed as block elements with a margin at the top.
+    */
     color: black;
     text-align: center;
     display: block;
@@ -77,25 +116,43 @@
   }
   
   a:hover {
+    /* 
+    Changes the text color of anchor links to blue on hover.
+    */
     color: blue;
   }
   
   .navbar {
+    /* 
+    The navigation bar has peru background color, overriding other styles using `!important`.
+    */
     background-color: peru !important;
   }
   
   .navbar-brand,
   .nav-link {
+     /* 
+    The brand name and navigation links inside the navbar are set to white, using `!important` to enforce the color.
+    */
     color: white !important;
   }
   
   h3 {
+    /* 
+    h3 is centered, using a serif as font family, 
+    and has a top margin of 20px for spacing.
+    */
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 20px;
   }
 
   .logout-button {
+    /* 
+    Styles the logout button, positioning it absolutely at the top-right of the screen.
+    It has peru background with white text, padding for spacing, and rounded corners.
+    A smooth transition is applied for background color changes on hover.
+    */
     position: absolute; 
     top: 10px; 
     right: 20px; 
@@ -108,6 +165,9 @@
 }
 
 .logout-button:hover {
+  /* 
+  The background color of the logout button changes to rosybrown on hover.
+  */
     background-color: rosybrown; 
 }
   
