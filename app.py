@@ -142,7 +142,7 @@ def comment():
             index = index_tracker[mood]
             response = answers[mood][index]
             index_tracker[mood] = (index + 1) % len(answers[mood])
-            expire_date = datetime.datetime.now() + datetime.timedelta(days=1)
+            expire_date = datetime.now() + timedelta(days=1)
             resp = make_response(render_template('comment.html', form=form, comments=comments, response=response))
             resp.set_cookie(mood, 'done', expires=expire_date)
             return resp
