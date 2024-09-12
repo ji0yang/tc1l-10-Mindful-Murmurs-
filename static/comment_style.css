@@ -1,4 +1,11 @@
 body {
+    /* 
+    The body has a vertical gradient background from peru to rosybrown.
+    Flexbox is used to center content both horizontally and vertically.
+    The height is set to 100vh, making the layout fill the entire viewport height.
+    Arial is chosen as the font for readability, with text color (#333).
+    The body has no margin, ensuring no gaps, and 20px padding provides a consistent space around the content.
+    */
     background: linear-gradient(to bottom, peru, rosybrown);
     display: flex;
     justify-content: center;
@@ -11,6 +18,11 @@ body {
 }
 
 .navbar {
+     /* 
+    The navbar stretches the full width of the viewport and is fixed to the top, staying in place when scrolling.
+    It has a z-index of 1000, ensuring it remains on top of other elements.
+    The background is a gradient, transitioning from (#8b4513) to  (#a0522d), with a box-shadow.
+    */
     width: 100%; 
     position: fixed; 
     top: 0; 
@@ -22,10 +34,18 @@ body {
 
 .navbar-brand,
 .nav-link {
+    /* 
+    Ensures that the navbar brand and links are always white for high contrast against the dark background.
+    '!important' is used to override any other conflicting styles.
+    */
     color: white !important;
 }
 
 h1 {
+    /* 
+    h1 is styled with (#4A4A4A) to maintain a soft tone.
+    It's centered horizontally and has margins to create space between the navbar and surrounding content.
+    */
     color: #4A4A4A; 
     text-align: center;
     margin-top: 70px;
@@ -33,12 +53,20 @@ h1 {
 }
 
 .container {
+    /* 
+    The container starts below the navbar (60px margin-top) to prevent overlap and has 20px padding for spacing inside the container.
+    The width is set to 100% to make sure the container stretches fully within the body.
+    */
     margin-top: 60px; 
     padding: 20px;
     width: 100%; 
 }
 
 form {
+    /* 
+    The form is placed on the center with a column layout to stack inputs vertically.
+    It has a bottom margin of 20px to separate it from the content below.
+    */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,6 +74,11 @@ form {
 }
 
 input[type="text"], input[type="submit"] {
+    /* 
+    A 10px vertical margin creates spacing between elements.
+    Padding of 10px inside provides enough clickable area.
+    Rounded corners is 4px, and the border is (#ccc).
+    */
     margin: 10px 0;
     padding: 10px;
     border-radius: 4px;
@@ -53,6 +86,12 @@ input[type="text"], input[type="submit"] {
 }
 
 input[type="submit"] {
+    /* 
+    The submit button has (#4CAF50) color background and white text.
+    It has a pointer cursor on hover,
+    and the button width is set to 100px.
+    transition effect for 0.3s is applied to the background color for smooth color change on hover.
+    */
     background-color: #4CAF50; 
     color: white;
     cursor: pointer;
@@ -61,15 +100,26 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
+    /* 
+    On hover, the submit button background darkens to #45a049.
+    */
     background-color: #45a049; 
 }
 
 ul {
+    /* 
+    The unordered list has no bullet points and no padding, making it a modern list.
+    */
     list-style-type: none; 
     padding: 0;
 }
 
 li {
+    /* 
+    List items have a white background to add contrast with the rest of the page.
+    Each item has a 10px margin at the bottom to create space , and 10px padding inside for better reading.
+    The corners are rounded with 4px, and the box-shadow adds depth, making the list items appear elevated.
+    */
     background-color: #fff; 
     margin-bottom: 10px;
     padding: 10px;
@@ -78,6 +128,11 @@ li {
 }
 
 a {
+    /* 
+    Anchor links have no underline (text-decoration: none) with (#0066cc) color.
+    The font is bold to indicate interactivity, 
+    and there's a 10px right margin to create space between multiple links.
+    */
     margin-right: 10px;
     text-decoration: none;
     color: #0066cc; 
@@ -85,10 +140,16 @@ a {
 }
 
 a:hover {
+    /* 
+    On hover, the anchor link color darkens to #004080.
+    */
     color: #004080; 
 }
 
 p {
+    /* 
+    Paragraphs are centered horizontally to maintain balance.
+    */
     text-align: center;
 }
 
