@@ -3,6 +3,8 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+<h1>Welcome to Mindful Murmurs</h1>
+
     <h2>Login Page</h2>
     <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
     <form method='POST' action="{{ url_for('login') }}">
