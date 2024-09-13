@@ -46,6 +46,8 @@ class CommentForm(FlaskForm):
     comment = StringField('Comment', validators=[InputRequired()])
     # allow user to post picture but only in jpg,jpeg and png
     image = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
+    video = FileField('Video', validators=[FileAllowed(['mp4', 'mov'], 'Videos only!')])
+
     submit = SubmitField("Comment")
 
 @login_manager.user_loader
@@ -104,7 +106,8 @@ def register():
     return render_template('register.html', form=form)
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png'}
+    allowed_extensions = {'jpg', 'jpeg', 'png', 'mp4', 'mov'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png','mp4', ' mov'}
 
 @app.route('/comment', methods=['GET', 'POST'])
 @login_required
@@ -115,27 +118,36 @@ def comment():
     if form.validate_on_submit():
         comment = form.comment.data
         filtered_comment = filter_text(comment)
+
         if any(word in comment.lower() for word in FORBIDDEN_WORDS):
             flash('Your comment contains foul language. Please try again')
         else:
-            filename = None
+            image_filename = None
+            video_filename = None
+
             if 'image' in request.files:
-                file = request.files['image']
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
+                image_file = request.files['image']
+                if image_file and allowed_file(image_file.filename):
+                    image_filename = secure_filename(image_file.filename)
+                    image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+
+            if 'video' in request.files:
+                video_file = request.files['video']
+                if video_file and allowed_file(video_file.filename):
+                    video_filename = secure_filename(video_file.filename)
+                    video_file.save(os.path.join(app.config['UPLOAD_FOLDER'], video_filename))
+
             comments.append({
-                'id': len(comments), 
-                'username': current_user.username, 
+                'id': len(comments),
+                'username': current_user.username,
                 'comment': filtered_comment,
-                'image': filename,
+                'image': image_filename,
+                'video': video_filename,
                 'timestamp': datetime.now().strftime('%y-%m_%d %H:%M:%S'),
                 'likes': 0
             })
             flash('Comment added!')
-    
-    # Handle mood selection
+
     mood = request.args.get('mood')
     if mood in answers:
         if not request.cookies.get(mood):
@@ -148,8 +160,9 @@ def comment():
             return resp
         else:
             response = "You have already answered this question today."
-    
+
     return render_template('comment.html', form=form, comments=comments, response=response)
+
 
 @app.route('/like/<int:comment_id>')
 @login_required
