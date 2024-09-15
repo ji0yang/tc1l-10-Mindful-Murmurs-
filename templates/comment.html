@@ -2,71 +2,90 @@
 
 {% block content %}
 <h1>Mindful Murmurs</h1>
-  <h1>Share your story here.</h1>
-  <link rel="stylesheet" href="{{ url_for('static', filename='comment_style.css') }}">
-  
-  <!-- Comment Form -->
-  <form action="" method="post" class="comment-form" enctype="multipart/form-data">
+<h2>Share your story here.</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='comment_style.css') }}">
+
+<!-- Comment Form -->
+<form action="" method="post" class="comment-form" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div>
-      {{ form.comment.label }}<br>
-      {{ form.comment(size=40) }}<br>
-      {% for error in form.comment.errors %}
-        <span class="error">{{ error }}</span><br>
-      {% endfor %}
-    </div>
-    
-    <div>
-      {{ form.image.label }}<br>
-      {{ form.image() }}<br>
-      {% for error in form.image.errors %}
-        <span class="error">{{ error }}</span><br>
-      {% endfor %}
+        {{ form.comment.label }}<br>
+        {{ form.comment(size=40) }}<br>
+        {% for error in form.comment.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
     </div>
     <div>
-      {{ form.submit() }}
+        {{ form.image.label }}<br>
+        {{ form.image() }}<br>
+        {% for error in form.image.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
     </div>
-  </form>
-  
-  <!-- Comments List -->
-  <ul class="comments-list">
+    <div>
+        {{ form.video.label }}<br>
+        {{ form.video() }}<br>
+        {% for error in form.video.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+
+<!-- Comments List -->
+<ul class="comments-list">
     {% for comment in comments %}
-      <li class="comment-item">
+    <li class="comment-item">
         <strong>{{ comment.username }}:</strong> {{ comment.comment }}
         {% if comment.timestamp %}
-          <span class="timestamp" style="color: #888; font-size: 12px;">on {{ comment.timestamp }}</span>
+        <span class="timestamp" style="color: #888; font-size: 12px;">on {{ comment.timestamp }}</span>
         {% endif %}
+
+        <!-- Display Image -->
         {% if comment.image %}
-          <div>
+        <div>
             <img src="{{ url_for('static', filename='uploads/' + comment.image) }}" alt="Image" style="max-width: 200px; max-height: 200px;">
-          </div>
+        </div>
         {% endif %}
+
+        <!-- Display Video -->
+        {% if comment.video %}
+        <div>
+            <video width="320" height="240" controls>
+                <source src="{{ url_for('static', filename='uploads/' + comment.video) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        {% endif %}
+
         <!-- Like Button and Count -->
         <div>
-          <span>Likes: {{ comment.likes }}</span>
-          {% if current_user.username not in comment.liked_by %}
+            <span>Likes: {{ comment.likes }}</span>
+            {% if current_user.username not in comment.liked_by %}
             <a href="{{ url_for('like_comment', comment_id=comment.id) }}" class="like-button">👍 Like</a>
-          {% else %}
-            <span class="liked-notice">you liked this comment.</span>
-          {% endif %}
+            {% else %}
+            <span class="liked-notice">You liked this comment.</span>
+            {% endif %}
         </div>
         {% if comment.username == current_user.username %}
-          <a href="{{ url_for('delete', comment_id=comment.id) }}" class="delete-button">Delete</a>
+        <a href="{{ url_for('delete', comment_id=comment.id) }}" class="delete-button">Delete</a>
         {% endif %}
-      </li>
+    </li>
     {% endfor %}
-  </ul>
-  
-  <!-- Mood Selection -->
-  <p>Select your mood:</p>
-  <div class="mood-links">
+</ul>
+
+<!-- Mood Selection -->
+<p>Select your mood:</p>
+<div class="mood-links">
     <a href="{{ url_for('comment', mood='q1') }}" class="mood-link">Good</a>
     <a href="{{ url_for('comment', mood='q2') }}" class="mood-link">Okay</a>
     <a href="{{ url_for('comment', mood='q3') }}" class="mood-link">Bad</a>
-  </div>
-  
-  <!-- Response -->
-  {% if response %}
-    <p class="response">Response: {{ response }}</p>
-  {% endif %}
+</div>
+
+<!-- Response -->
+{% if response %}
+<p class="response">Response: {{ response }}</p>
+{% endif %}
 {% endblock %}
