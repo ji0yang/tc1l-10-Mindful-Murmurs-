@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, EqualTo
 from flask_bcrypt import Bcrypt
 from flask_wtf.file import FileField, FileAllowed
 import os
@@ -50,6 +50,12 @@ class CommentForm(FlaskForm):
 
     submit = SubmitField("Comment")
 
+class ResetPasswordForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Reset Password')
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -63,6 +69,27 @@ def filter_text(text):
     for word in FORBIDDEN_WORDS:
         text_lower = text_lower.replace(word, '*' * len(word))
     return text_lower
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        print("Form data:", form.data)  
+        user = User.query.filter_by(username=form.username.data).first()
+        print("User found:", user)  
+        if user:
+            if form.new_password.data == form.confirm_password.data:
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+                user.password = hashed_password
+                db.session.commit()
+                flash('Password reset successfully! Please log in with your new password.')
+                return redirect(url_for('login'))
+            else:
+                flash('New password and confirm password do not match.')
+        else:
+            flash('Username not found.')
+    return render_template('reset_password.html', form=form)
 
 # make user log in then direct it to home page
 @app.route('/')
@@ -106,8 +133,8 @@ def register():
     return render_template('register.html', form=form)
 
 def allowed_file(filename):
-    allowed_extensions = {'jpg', 'jpeg', 'png', 'mp4', 'mov'}
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png','mp4', ' mov'}
+    allowed_extensions = {'jpg', 'jpeg', 'png', 'mp4'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png','mp4',}
 
 @app.route('/comment', methods=['GET', 'POST'])
 @login_required
@@ -235,6 +262,7 @@ answers = {
 }
 
 index_tracker = {'q1': 0, 'q2': 0, 'q3': 0}
+
 
 # let user to choose their mood after commeting 
 # only allow user to choose once per day
