@@ -84,3 +84,10 @@ body {
     font-size: 1.1em;
 }
 
+.today {
+    background-color: #b7ceed;
+    color: maroon;
+    font-weight: bold;
+}
+
+
