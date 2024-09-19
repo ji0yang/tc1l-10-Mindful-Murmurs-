@@ -289,7 +289,8 @@ def how_was_your_day():
 @app.route('/calendar')
 @login_required
 def calendar():
-    return render_template('calendar.html')
+    today = datetime.today().day
+    return render_template('calendar.html', today=today)
 
 # Log out
 @app.route('/logout')
