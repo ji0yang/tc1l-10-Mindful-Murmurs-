@@ -50,6 +50,10 @@ class CommentForm(FlaskForm):
 
     submit = SubmitField("Comment")
 
+class ReplyForm(FlaskForm):
+    reply = StringField('Reply')
+    submit = SubmitField('Reply')
+
 class ResetPasswordForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
     new_password = PasswordField('New Password', validators=[DataRequired()])
@@ -140,6 +144,7 @@ def allowed_file(filename):
 @login_required
 def comment():
     form = CommentForm()
+    reply_form = ReplyForm()
     response = ""
 
     if form.validate_on_submit():
@@ -171,9 +176,25 @@ def comment():
                 'image': image_filename,
                 'video': video_filename,
                 'timestamp': datetime.now().strftime('%y-%m_%d %H:%M:%S'),
-                'likes': 0
+                'likes': 0,
+                'replies': []
             })
             flash('Comment added!')
+
+    #reply submission
+    if reply_form.validate_on_submit() and 'parent_comment_id' in request.form:
+        reply_text = reply_form.reply.data
+        #find the matching comment
+        parent_comment_id = request.form.get('parent_comment_id')
+        parent_comment = next((c for c in comments if c['id'] == int(parent_comment_id)), None)
+        if parent_comment:
+            parent_comment['replies'].append({
+                'username': current_user.username,
+                'reply': reply_text,
+                'timestamp': datetime.now().strftime('%y-%m-%d %H:%M:%S'),
+            })
+            flash('Reply added successfully!', 'success')
+            return redirect(url_for('comment'))    
 
     mood = request.args.get('mood')
     if mood in answers:
@@ -188,7 +209,7 @@ def comment():
         else:
             response = "You have already answered this question today."
 
-    return render_template('comment.html', form=form, comments=comments, response=response)
+    return render_template('comment.html', form=form, reply_form=reply_form, comments=comments, response=response)
 
 
 @app.route('/like/<int:comment_id>')

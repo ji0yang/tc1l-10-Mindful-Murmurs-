@@ -72,6 +72,33 @@
         {% if comment.username == current_user.username %}
         <a href="{{ url_for('delete', comment_id=comment.id) }}" class="delete-button">Delete</a>
         {% endif %}
+
+        <!-- Reply Form -->
+        <form action="{{ url_for('comment') }}" method="post" class="reply-form">
+            {{ reply_form.hidden_tag() }}
+            <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">
+            <div>
+                {{ reply_form.reply.label }}<br>
+                {{ reply_form.reply(size=5) }}<br>
+                {% for error in reply_form.reply.errors %}
+                    <span class="error">{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div>
+                {{ reply_form.submit() }}
+            </div>
+        </form>
+
+        <!-- Replies List -->
+        <ul class="replies-list">
+            {% for reply in comment.replies %}
+            <li class="reply-item">
+                <strong>{{ reply.username }}:</strong> {{ reply.reply }}
+                <span class="timestamp" style="color: #888; font-size: 12px;">on {{ reply.timestamp }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+
     </li>
     {% endfor %}
 </ul>
