@@ -5,6 +5,7 @@ body {
     ensuring the calendar stays in the middle of the screen.
     The height is set to 100vh, 
     while margin is removed to avoid any spacing issues.
+    Position is relative.
     */
     font-family: Arial, sans-serif;
     display: flex;
@@ -13,6 +14,65 @@ body {
     height: 100vh;
     background:linear-gradient(to right, peru, rosybrown);
     margin: 0;
+    position: relative;
+}
+
+/* Navbar section */
+.navbar-container {
+    /* 
+    Styles the container holding the navbar to ensure it spans the full width and is positioned correctly.
+    The width is 100%; makes the navbar span the full width of the viewport.
+    The background is linear-gradient to right (#8b4513, #a0522d); applies a gradient background to the navbar.
+    Position is absolute which allows the navbar to be positioned relative.
+    */
+    width: 100%; 
+    background: linear-gradient(to right, #8b4513, #a0522d); 
+    position: absolute; 
+    top: 0;
+    left: 0;
+    z-index: 1000; 
+   
+}
+
+nav {
+    /* 
+    Aligns links horizontally.
+    Centers the links within the navbar. 
+    Adds padding around the navbar.
+    */
+    display: flex; 
+    justify-content: left; 
+    padding: 20px ; 
+    
+   
+}
+
+.navbar-brand {
+    /* 
+    Style the links inside the navbar, providing some spacing, 
+    making the text bold and removing the line below the links.
+    */
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    font-size: 1.2em;
+     
+}
+
+/* Calendar section */
+.calendar-container {
+    /* 
+    Styles the container holding the calendar to position it properly on the page.
+    The margin-top is set to 50px creates space above the calendar.
+    The display flex uses flexbox layout to center the calendar horizontally within the container.
+    Justify-content is center which aligns the calendar horizontally to the center of the container.
+    Width is 100%; ensures the container spans the full width of the viewport, allowing the calendar to be on center.
+    */
+    margin-top: 50px; 
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .calendar {
@@ -28,6 +88,7 @@ body {
     overflow: hidden;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
 }
 
 .header {
@@ -38,7 +99,7 @@ body {
     background-color:#a28465;
     color: white;
     text-align: center;
-    padding: 15px;
+    padding: 20px;
 }
 
 .header h1 {
@@ -85,6 +146,12 @@ body {
 }
 
 .today {
+    /* 
+    Styles the current day in the calendar.
+    Sets the background-color to (#b7ceed) which highlight the current day.
+    Color set to maroon which make the text color to maroon for better visibility against the background.
+    Font-weight is set to bold to make the text bold to emphasize the current day.
+    */
     background-color: #b7ceed;
     color: maroon;
     font-weight: bold;
