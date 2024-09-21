@@ -51,7 +51,11 @@ h1 {
     margin-top: 70px;
     margin-bottom: 20px;
 }
-
+h2 {
+    text-align: center;
+    color : #FFEED6;
+    font-size: 35px;
+}
 .container {
     /* 
     The container starts below the navbar (60px margin-top) to prevent overlap and has 20px padding for spacing inside the container.
